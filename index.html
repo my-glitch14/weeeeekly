@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>秋学期の手帳</title>
+<style>
+:root{
+  --paper:#FAF9F6;
+  --paper-2:#F4F3EE;
+  --rule:#E7E6DF;
+  --rule-2:#F0EFE9;
+  --grid:#F0EFE9;
+  --ink:#1B2A41;
+  --ink-2:#5A6478;
+  --ink-3:#9AA0AC;
+  --ink-4:#C3C6CC;
+  --accent:#8C2F39;
+  --accent-bg:#F7EDEE;
+  --accent-bg2:#F0DFE1;
+  --chip:#E9E8E1;
+  --chip-on:#E4CFD2;
+  --indigo:#2E4A6B;
+  --done:#7C8B76;
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP",serif;
+  --sans:"Hiragino Sans","Yu Gothic","Noto Sans JP",system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-text-size-adjust:100%;}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer;}
+input,textarea{font-family:inherit;font-size:inherit;color:inherit;}
+:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+.wrap{max-width:1340px;margin:0 auto;padding:0 20px 80px;}
+
+.masthead{padding:24px 0 10px;}
+.masthead h1{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.14em;margin:0 0 2px;}
+.masthead .sub{font-size:12px;color:var(--ink-3);letter-spacing:.08em;}
+.masthead .tools{float:right;display:flex;gap:8px;margin-top:4px;}
+.tools button{background:none;border:1px solid var(--rule);border-radius:2px;padding:4px 10px;font-size:12px;color:var(--ink-2);}
+.tools button:hover{border-color:var(--ink-3);color:var(--ink);}
+
+.banner{background:#FFF7E8;border-left:3px solid var(--accent);padding:9px 12px;margin:10px 0;font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.banner .spacer{flex:1;}
+.banner button{background:none;border:1px solid var(--rule);border-radius:2px;padding:3px 12px;font-size:12px;}
+.banner button.primary{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+
+.ruler{margin:10px 0 4px;}
+.ruler-bars{display:flex;gap:3px;align-items:flex-end;height:30px;}
+.ruler-bars button{flex:1;height:12px;border:none;background:var(--rule-2);border-radius:1px;padding:0;}
+.ruler-bars button.past{background:var(--rule);}
+.ruler-bars button.inmonth{background:var(--ink-4);height:18px;}
+.ruler-bars button.cur{background:var(--indigo);height:24px;}
+.ruler-bars button:hover{background:var(--ink-3);}
+.ruler-months{display:flex;font-size:11px;color:var(--ink-3);letter-spacing:.06em;margin-top:3px;}
+
+.block-title{font-family:var(--serif);font-size:14px;letter-spacing:.12em;color:var(--ink-2);margin:0 0 8px;font-weight:600;}
+.hint{font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.6;}
+.hint b{font-weight:400;color:var(--accent);}
+
+.split{display:grid;grid-template-columns:214px 1fr;gap:26px;margin-top:24px;align-items:start;}
+
+/* 左：タスク */
+.lhead{display:flex;align-items:baseline;gap:8px;}
+.lhead .spacer{flex:1;}
+.lhead .cnt{font-size:11px;color:var(--ink-3);}
+.toggle{background:none;border:none;font-size:11px;color:var(--ink-3);text-decoration:underline;padding:0;}
+.toggle:hover{color:var(--accent);}
+.addbox{display:flex;gap:6px;margin-top:10px;}
+.addbox input{flex:1;background:#fff;border:1px solid var(--rule);padding:7px 9px;border-radius:2px;}
+.addbox input:focus{border-color:var(--indigo);}
+.addbox button{background:var(--indigo);color:#fff;border:none;padding:0 14px;border-radius:2px;}
+
+.tlist{margin-top:16px;}
+.trow{display:flex;gap:6px;align-items:flex-start;padding:7px 2px 7px 6px;border-left:3px solid transparent;cursor:pointer;border-bottom:1px solid var(--rule-2);}
+.trow:hover{background:#FCFBF7;}
+.trow.sel{border-left-color:var(--accent);background:var(--accent-bg);}
+.trow .t{flex:1;font-size:13px;line-height:1.55;word-break:break-word;}
+.trow.done .t{color:var(--ink-3);text-decoration:line-through;}
+.rowbtn{flex:none;background:none;border:none;padding:0 2px;font-size:12px;color:var(--ink-4);line-height:1.5;margin-top:2px;}
+.rowbtn:hover{color:var(--accent);}
+.rowbtn.danger{color:var(--accent);font-size:11px;text-decoration:underline;}
+.trow.sel .rowbtn{color:var(--ink-3);}
+.trow .sc{flex:none;font-size:10px;color:var(--ink-3);margin-top:3px;}
+.empty{color:var(--ink-3);font-size:12px;padding:16px 4px;line-height:1.8;}
+
+.box{flex:none;width:14px;height:14px;margin-top:4px;border:1px solid var(--ink-4);background:none;border-radius:1px;padding:0;position:relative;}
+.box:hover{border-color:var(--ink-3);}
+.box.on{background:var(--done);border-color:var(--done);}
+.box.on::after{content:"";position:absolute;left:3.5px;top:0.5px;width:4px;height:8px;border:solid #fff;border-width:0 1.5px 1.5px 0;transform:rotate(42deg);}
+
+/* 右：カレンダー */
+.mnav{display:flex;align-items:baseline;gap:14px;}
+.mnav .mtitle{font-family:var(--serif);font-size:24px;letter-spacing:.08em;}
+.mnav .spacer{flex:1;}
+.mnav button{background:none;border:none;font-size:17px;color:var(--ink-3);padding:0 6px;line-height:1;}
+.mnav button:hover{color:var(--ink);}
+.goal{margin-top:14px;}
+.goal textarea{width:100%;background:var(--paper-2);border:none;border-left:2px solid var(--rule);padding:8px 10px;resize:vertical;line-height:1.7;}
+.goal textarea:focus{border-left-color:var(--indigo);background:#fff;}
+.goal textarea::placeholder{color:var(--ink-3);}
+
+.cal{margin-top:20px;}
+.mhead{display:grid;grid-template-columns:repeat(7,1fr);padding-bottom:8px;}
+.mhead button{background:none;border:none;font-size:12px;color:var(--ink-3);letter-spacing:.12em;padding:4px 0;border-radius:2px;}
+.mhead button:hover{background:var(--paper-2);color:var(--ink-2);}
+.mhead button.a{color:#B98A8E;}
+.mhead button.b{color:#7E93AC;}
+.mhead button.all{background:var(--accent-bg2);color:var(--accent);}
+.mgrid{display:grid;grid-template-columns:repeat(7,1fr);}
+.mcell{background:none;border:none;border-top:1px solid var(--grid);padding:9px 7px 12px;text-align:left;font-family:inherit;min-height:116px;display:block;overflow:hidden;}
+.mcell:hover{background:#FCFBF7;}
+.mcell.out{color:var(--ink-4);cursor:default;}
+.mcell.out:hover{background:none;}
+.mcell .mn{font-family:var(--serif);font-size:18px;color:var(--ink-2);display:inline-block;min-width:26px;height:26px;line-height:26px;text-align:center;border-radius:50%;}
+.mcell.sun .mn,.mcell.hol .mn{color:var(--accent);}
+.mcell.sat .mn{color:var(--indigo);}
+.mcell.out .mn{color:var(--ink-4);}
+.mcell.today .mn{background:var(--indigo);color:#fff;}
+.mcell .mh{font-size:10px;color:#B98A8E;line-height:1.35;margin-top:2px;letter-spacing:.02em;}
+.mcell.picked{background:var(--accent-bg);}
+.mcell.picked:hover{background:var(--accent-bg);}
+.mcell.picked .mn{background:var(--accent);color:#fff;}
+.mcell.picked.today .mn{background:var(--accent);}
+.tchip{display:block;font-size:11px;line-height:1.55;padding:2px 6px;margin-top:4px;background:var(--chip);color:var(--ink-2);
+  border-radius:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tchip.on{background:var(--chip-on);color:var(--accent);}
+.tchip.d{color:var(--ink-3);text-decoration:line-through;}
+.more{font-size:10px;color:var(--ink-3);margin-top:3px;padding-left:5px;}
+
+/* 詳細 */
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(27,42,65,.22);z-index:80;
+  display:flex;align-items:center;justify-content:center;padding:20px;}
+.mbox{background:#fff;border:1px solid var(--rule);border-radius:3px;width:430px;max-width:100%;
+  max-height:86vh;overflow-y:auto;box-shadow:0 10px 34px rgba(27,42,65,.2);}
+.mbox-h{padding:11px 16px;border-bottom:1px solid var(--rule-2);display:flex;align-items:center;gap:8px;}
+.mbox-h .ttl{flex:1;font-family:var(--serif);font-size:14px;letter-spacing:.1em;color:var(--ink-2);}
+.mbox-b{padding:14px 16px;}
+.mbox-f{padding:11px 16px;border-top:1px solid var(--rule-2);display:flex;gap:8px;align-items:center;background:var(--paper-2);}
+.mbox-f .spacer{flex:1;}
+.mbox label{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.06em;margin:14px 0 5px;}
+.mbox input[type=text]{width:100%;background:#fff;border:1px solid var(--rule);padding:7px 9px;border-radius:2px;}
+.mbox input[type=date]{background:#fff;border:1px solid var(--rule);padding:6px 8px;border-radius:2px;width:158px;}
+.mbox input:focus{border-color:var(--indigo);}
+.dateadd{display:flex;gap:6px;margin-top:8px;align-items:center;}
+.dchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
+.dchip{background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:3px 8px;font-size:11px;color:var(--ink-2);}
+.dchip:hover{border-color:var(--accent);color:var(--accent);}
+.dchip .x{color:var(--ink-3);margin-left:5px;}
+.dnone{font-size:11px;color:var(--ink-3);}
+.subs{margin-top:6px;}
+.sub{display:flex;gap:8px;align-items:center;font-size:13px;padding:2px 0;}
+.sub.on span.st{text-decoration:line-through;color:var(--ink-3);}
+.sub span.st{flex:1;}
+.subadd{display:flex;gap:6px;margin-top:7px;}
+.subadd input{flex:1;background:#fff;border:1px solid var(--rule);padding:6px 9px;border-radius:2px;}
+.chip{background:none;border:1px solid var(--rule);border-radius:2px;padding:4px 11px;font-size:12px;color:var(--ink-2);}
+.chip:hover{border-color:var(--ink-3);}
+.chip.danger{color:var(--accent);border-color:#EADDDE;}
+.linkbtn{background:none;border:none;padding:0;font-size:11px;color:var(--ink-3);text-decoration:underline;}
+.linkbtn:hover{color:var(--accent);}
+
+/* 日付を選ぶと出るタスク選択ポップ */
+.pop{position:fixed;right:26px;bottom:26px;width:310px;background:#fff;border:1px solid var(--rule);
+  box-shadow:0 8px 28px rgba(27,42,65,.14);border-radius:3px;z-index:50;overflow:hidden;}
+.pop-h{padding:10px 12px;background:var(--accent-bg);border-bottom:1px solid var(--rule-2);display:flex;gap:8px;align-items:flex-start;}
+.pop-h .ttl{flex:1;font-size:12px;color:var(--accent);line-height:1.5;}
+.pop-h .ttl span{display:block;color:var(--ink-3);font-size:11px;word-break:break-word;line-height:1.5;}
+.pop-x{background:none;border:none;color:var(--ink-3);font-size:15px;line-height:1;padding:2px 2px;}
+.pop-x:hover{color:var(--accent);}
+.pop-new{display:flex;gap:6px;padding:9px 12px;border-bottom:1px solid var(--rule-2);}
+.pop-new input{flex:1;min-width:0;background:#fff;border:1px solid var(--rule);padding:5px 8px;border-radius:2px;font-size:13px;}
+.pop-new input:focus{border-color:var(--indigo);}
+.pop-list{max-height:252px;overflow-y:auto;}
+.pop-row{display:flex;gap:8px;align-items:center;width:100%;background:none;border:none;text-align:left;
+  padding:8px 12px;border-bottom:1px solid var(--rule-2);font-size:13px;}
+.pop-row:hover{background:var(--paper-2);}
+.pop-row .mk{flex:none;width:12px;font-size:11px;color:var(--accent);}
+.pop-row .pt{flex:1;word-break:break-word;line-height:1.45;}
+.pop-row.in .pt{color:var(--accent);}
+.pop-row.done .pt{color:var(--ink-3);text-decoration:line-through;}
+.pop-row .pn{flex:none;font-size:10px;color:var(--ink-3);}
+.pop-empty{padding:14px 12px;font-size:12px;color:var(--ink-3);line-height:1.7;}
+.pop-f{padding:8px 12px;font-size:10.5px;color:var(--ink-3);background:var(--paper-2);line-height:1.5;}
+
+footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--rule-2);font-size:11px;color:var(--ink-3);}
+
+@media (max-width:1100px){
+  .mcell{min-height:96px;padding:7px 5px 10px;}
+  .mcell .mn{font-size:16px;min-width:23px;height:23px;line-height:23px;}
+}
+@media (max-width:900px){
+  .split{grid-template-columns:1fr;gap:26px;}
+  .mcell{min-height:78px;padding:6px 4px 8px;}
+  .mcell .mn{font-size:15px;min-width:21px;height:21px;line-height:21px;}
+  .tchip{font-size:10px;padding:1px 4px;margin-top:3px;}
+  .mcell .mh{display:none;}
+}
+@media (max-width:640px){
+  .pop{right:10px;left:10px;bottom:10px;width:auto;}
+  .pop-list{max-height:200px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 14px 60px;}
+  .masthead .tools{float:none;margin-top:10px;}
+  .mcell{min-height:60px;padding:5px 2px 7px;}
+  .mcell .mn{font-size:14px;min-width:19px;height:19px;line-height:19px;}
+  .tchip{font-size:0;line-height:0;height:5px;padding:0;margin-top:3px;}
+  .more{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="tools">
+      <button data-act="export">書き出す</button>
+      <button data-act="import">読み込む</button>
+    </div>
+    <h1>秋学期の手帳</h1>
+    <div class="sub" id="sub"></div>
+    <div class="ruler">
+      <div class="ruler-bars" id="rulerBars"></div>
+      <div class="ruler-months" id="rulerMonths"></div>
+    </div>
+  </header>
+
+  <div id="banner"></div>
+  <main id="main"></main>
+
+  <footer>
+    データはこのブラウザの中だけに保存されます。端末やブラウザを変えると引き継がれないので、ときどき「書き出す」でJSONを保存しておくのが安全です。
+  </footer>
+</div>
+
+<div id="pop"></div>
+<div id="modal"></div>
+
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+
+<script>
+"use strict";
+
+/* ============ 定数 ============ */
+const STORE_KEY = "akigakki-techo-v1";
+const SEMESTER_START = "2026-10-01";
+const SEMESTER_END   = "2027-02-28";
+const WD = ["日","月","火","水","木","金","土"];
+const MAX_CHIP = 4;
+
+const HOLIDAYS = {
+  "2026-10-12":"スポーツの日",
+  "2026-11-03":"文化の日",
+  "2026-11-23":"勤労感謝の日",
+  "2027-01-01":"元日",
+  "2027-01-11":"成人の日",
+  "2027-02-11":"建国記念の日",
+  "2027-02-23":"天皇誕生日"
+};
+function getJpHolidays(dateStr){ return HOLIDAYS[dateStr] || null; }
+
+/* ============ 日付（ローカル時刻のみ） ============ */
+function ymd(d){
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const a = String(d.getDate()).padStart(2,"0");
+  return y+"-"+m+"-"+a;
+}
+function parseYmd(s){
+  const p = String(s).split("-");
+  return new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
+}
+function addDays(s,n){ const d = parseYmd(s); d.setDate(d.getDate()+n); return ymd(d); }
+function mondayOf(s){
+  const d = parseYmd(s); const w = d.getDay();
+  d.setDate(d.getDate() + (w===0 ? -6 : 1-w));
+  return ymd(d);
+}
+function dowOf(s){ return parseYmd(s).getDay(); }
+function monthKey(s){ return s.slice(0,7); }
+function diffDays(a,b){ return Math.round((parseYmd(b)-parseYmd(a))/86400000); }
+function shortDate(s){ const d = parseYmd(s); return (d.getMonth()+1)+"/"+d.getDate(); }
+function jpDate(s){ const d = parseYmd(s); return (d.getMonth()+1)+"月"+d.getDate()+"日"; }
+function todayStr(){ return ymd(new Date()); }
+function daysInMonth(mk){
+  const y = Number(mk.slice(0,4)), m = Number(mk.slice(5,7));
+  const last = new Date(y, m, 0).getDate();
+  const out = [];
+  for(let d=1; d<=last; d++) out.push(mk + "-" + String(d).padStart(2,"0"));
+  return out;
+}
+
+const WEEKS = (function(){
+  const out = []; let cur = mondayOf(SEMESTER_START); const last = mondayOf(SEMESTER_END);
+  while (diffDays(cur,last) >= 0){ out.push(cur); cur = addDays(cur,7); }
+  return out;
+})();
+
+/* ============ 状態 ============ */
+const DEFAULT_STATE = { version:5, monthGoals:{}, tasks:[], goalMoved:false, habits:[], reviews:{} };
+
+function uid(){ return Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4); }
+
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    return migrate(Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), JSON.parse(raw)));
+  }catch(e){ return JSON.parse(JSON.stringify(DEFAULT_STATE)); }
+}
+/* 旧版からの引き継ぎ：start / end を dates 配列にたたむ */
+function migrate(s){
+  (s.tasks || []).forEach(function(t){
+    delete t.repeat; delete t.priority; delete t.log;
+    if(!t.subs) t.subs = [];
+    if(!Array.isArray(t.dates)){
+      const out = [];
+      if(t.start){
+        const end = (t.end && diffDays(t.start, t.end) >= 0) ? t.end : t.start;
+        let d = t.start;
+        while(diffDays(d, end) >= 0){ out.push(d); d = addDays(d,1); }
+      }
+      t.dates = out;
+    }
+    delete t.start; delete t.end;
+    t.dates = sortDates(t.dates);
+  });
+  if(!s.goalMoved){
+    const carried = [];
+    if(s.standingGoal && s.standingGoal.trim()) carried.push(s.standingGoal.trim());
+    Object.keys(s.weekGoals || {}).forEach(function(k){
+      const v = (s.weekGoals[k] || "").trim();
+      if(v && carried.indexOf(v) < 0) carried.push(v);
+    });
+    carried.forEach(function(v){
+      s.tasks.push({ id:uid(), title:v, dates:[], done:false, subs:[], archived:false });
+    });
+    s.goalMoved = true;
+  }
+  delete s.standingGoal; delete s.weekGoals;
+  s.version = 5;
+  return s;
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+  catch(e){ console.warn("保存できませんでした", e); }
+}
+
+let state = load();
+let curMonth = (function(){
+  const t = todayStr();
+  if(t < SEMESTER_START) return monthKey(SEMESTER_START);
+  if(t > SEMESTER_END) return monthKey(SEMESTER_END);
+  return monthKey(t);
+})();
+let selId = null;
+let picked = [];          /* カレンダーで選んでいる日 */
+let pendingImport = null;
+let confirmId = null;
+let hideDone = false;
+let popQuery = "";
+let editId = null;
+
+function esc(s){
+  return String(s == null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function sortDates(a){
+  return (a || []).filter(function(v,i,arr){ return v && arr.indexOf(v) === i; })
+    .sort(function(x,y){ return x < y ? -1 : (x > y ? 1 : 0); });
+}
+function findTask(id){ return state.tasks.find(function(t){ return t.id === id; }); }
+function newTask(title){ return { id:uid(), title:title, dates:[], done:false, subs:[], archived:false }; }
+function liveTasks(){ return state.tasks.filter(function(t){ return !t.archived; }); }
+function tasksOn(date){ return liveTasks().filter(function(t){ return (t.dates||[]).indexOf(date) >= 0; }); }
+function firstDate(t){ return (t.dates && t.dates.length) ? t.dates[0] : ""; }
+function sortedTasks(){
+  return liveTasks().slice().sort(function(a,b){
+    if(a.done !== b.done) return a.done ? 1 : -1;
+    const fa = firstDate(a), fb = firstDate(b);
+    if(fa && !fb) return -1;
+    if(!fa && fb) return 1;
+    if(fa && fb && fa !== fb) return fa < fb ? -1 : 1;
+    return 0;
+  });
+}
+/* 選んだ日にタスクを付ける／全部付いていたら外す */
+function applyToPicked(t){
+  const all = picked.every(function(d){ return (t.dates||[]).indexOf(d) >= 0; });
+  if(all){
+    t.dates = (t.dates||[]).filter(function(d){ return picked.indexOf(d) < 0; });
+  }else{
+    t.dates = sortDates((t.dates||[]).concat(picked));
+  }
+  save();
+}
+
+/* ============ 描画 ============ */
+const main = document.getElementById("main");
+
+function render(){
+  renderMast();
+  renderRuler();
+  renderBanner();
+  main.innerHTML = '<div class="split"><div class="pane-l">'+leftPane()+'</div><div class="pane-r">'+rightPane()+'</div></div>';
+  renderPop();
+  renderModal();
+}
+
+/* ---------- 日を選ぶと出るタスク選択ポップ ---------- */
+function renderPop(){
+  const el = document.getElementById("pop");
+  if(!picked.length){ el.innerHTML = ""; popQuery = ""; return; }
+  const days = sortDates(picked);
+  const q = popQuery.trim().toLowerCase();
+  let list = sortedTasks();
+  if(q) list = list.filter(function(t){ return t.title.toLowerCase().indexOf(q) >= 0; });
+
+  const rows = list.map(function(t){
+    const has = days.filter(function(d){ return (t.dates||[]).indexOf(d) >= 0; }).length;
+    const inAll = has === days.length;
+    const mark = inAll ? "\u2713" : (has ? "\u2013" : "");
+    return '<button class="pop-row'+(inAll?" in":"")+(t.done?" done":"")+'" data-act="popPick" data-id="'+t.id+'">'
+      + '<span class="mk">'+mark+'</span>'
+      + '<span class="pt">'+esc(t.title)+'</span>'
+      + '<span class="pn">'+((t.dates||[]).length ? (t.dates.length)+"日" : "")+'</span>'
+      + '</button>';
+  }).join("") || '<div class="pop-empty">見つかりません。上の欄に書いて「作る」を押すと、新しいタスクとして入ります。</div>';
+
+  el.innerHTML = '<div class="pop">'
+    + '<div class="pop-h"><div class="ttl">'+days.length+'日を選択中<span>'+esc(days.map(shortDate).join("、"))+'</span></div>'
+    +   '<button class="pop-x" data-act="clearpick" aria-label="閉じる">\u00d7</button></div>'
+    + '<div class="pop-new"><input type="text" id="popQ" placeholder="探す／新しく作る" value="'+esc(popQuery)+'">'
+    +   '<button class="chip" data-act="popAdd">作る</button></div>'
+    + '<div class="pop-list">'+rows+'</div>'
+    + '<div class="pop-f">押すとその日に入ります。'+"\u2713"+'は全部の日に入っている印で、もう一度押すと外れます。</div>'
+    + '</div>';
+}
+
+function renderMast(){
+  const t = todayStr();
+  let msg;
+  if(diffDays(t, SEMESTER_START) > 0) msg = "開始まであと" + diffDays(t, SEMESTER_START) + "日　2026年10月 — 2027年2月";
+  else if(diffDays(SEMESTER_END, t) > 0) msg = "学期は終了しました　2026年10月 — 2027年2月";
+  else msg = "第" + (WEEKS.indexOf(mondayOf(t))+1) + "週 / 全" + WEEKS.length + "週　2026年10月 — 2027年2月";
+  document.getElementById("sub").textContent = msg;
+}
+
+function renderRuler(){
+  const tw = mondayOf(todayStr());
+  document.getElementById("rulerBars").innerHTML = WEEKS.map(function(w){
+    const cls = [];
+    if(diffDays(w, tw) > 0) cls.push("past");
+    if(monthKey(addDays(w,3)) === curMonth) cls.push("inmonth");
+    if(w === tw) cls.push("cur");
+    return '<button class="'+cls.join(" ")+'" data-act="gomonth" data-month="'+monthKey(addDays(w,3))+'" title="'+jpDate(w)+'の週"></button>';
+  }).join("");
+  let lastM = "";
+  document.getElementById("rulerMonths").innerHTML = WEEKS.map(function(w){
+    const m = String(parseYmd(addDays(w,3)).getMonth()+1);
+    const label = (m !== lastM) ? m+"月" : "";
+    lastM = m;
+    return '<span style="flex:1">'+label+'</span>';
+  }).join("");
+}
+
+function renderBanner(){
+  const b = document.getElementById("banner");
+  if(pendingImport){
+    b.innerHTML = '<div class="banner"><span>読み込むと、いま入っているデータは置き換わります。</span>'
+      + '<span class="spacer"></span>'
+      + '<button class="primary" data-act="importOk">置き換える</button>'
+      + '<button data-act="importNo">やめる</button></div>';
+  }else{ b.innerHTML = ""; }
+}
+
+/* ---------- 左：タスク一覧 ---------- */
+function leftPane(){
+  const all = sortedTasks();
+  const shown = hideDone ? all.filter(function(t){ return !t.done; }) : all;
+  const doneN = all.filter(function(t){ return t.done; }).length;
+
+  const rows = shown.map(function(t){
+    const n = (t.subs||[]).length;
+    const dn = n ? t.subs.filter(function(s){ return s.done; }).length : 0;
+    const btns = (confirmId === t.id)
+      ? '<button class="rowbtn danger" data-act="delOk" data-id="'+t.id+'">削除する</button>'
+        + '<button class="rowbtn" data-act="delNo">やめる</button>'
+      : '<button class="rowbtn" data-act="openEdit" data-id="'+t.id+'" aria-label="編集" title="編集">\u270e</button>'
+        + '<button class="rowbtn" data-act="delAsk" data-id="'+t.id+'" aria-label="削除" title="削除">\u00d7</button>';
+    return '<div class="trow'+(selId===t.id?" sel":"")+(t.done?" done":"")+'" data-act="taskclick" data-id="'+t.id+'">'
+      + '<button class="box'+(t.done?" on":"")+'" data-act="toggle" data-id="'+t.id+'" aria-label="完了"></button>'
+      + '<span class="t">'+esc(t.title)+'</span>'
+      + (n ? '<span class="sc">'+dn+'/'+n+'</span>' : '')
+      + btns
+      + '</div>';
+  }).join("");
+
+  return ''
+  + '<div class="lhead">'
+  +   '<h2 class="block-title" style="margin:0">タスク</h2>'
+  +   '<span class="cnt">'+(all.length - doneN)+' / '+all.length+'</span>'
+  +   '<span class="spacer"></span>'
+  +   (doneN ? '<button class="toggle" data-act="hidedone">'+(hideDone?"完了も表示":"完了を隠す")+'</button>' : '')
+  + '</div>'
+  + '<div class="addbox">'
+  +   '<input type="text" id="nTitle" placeholder="やること">'
+  +   '<button data-act="add">追加</button>'
+  + '</div>'
+  + '<div class="tlist">'+(rows || '<div class="empty">まだタスクがありません。上の欄に書いて「追加」を押してください。<br>ここに入れたものは、どの月を見ていても消えずに並び続けます。</div>')+'</div>'
+  + '<div class="hint">鉛筆で名前や日付を直せます。日付を入れるときは、カレンダーで日を選ぶ方法もあります。</div>';
+}
+
+/* ---------- 右：カレンダー ---------- */
+function rightPane(){
+  const y = Number(curMonth.slice(0,4));
+  const m = Number(curMonth.slice(5,7));
+  const days = daysInMonth(curMonth);
+  const first = days[0];
+  const startPad = dowOf(first);
+  const t = todayStr();
+  const sel = selId ? findTask(selId) : null;
+
+  let cells = "";
+  for(let i=startPad;i>0;i--){
+    const ds = addDays(first, -i);
+    cells += '<div class="mcell out"><span class="mn">'+parseYmd(ds).getDate()+'</span></div>';
+  }
+
+  days.forEach(function(ds){
+    const w = dowOf(ds);
+    const hol = getJpHolidays(ds);
+    const cls = ["mcell"];
+    if(w === 0) cls.push("sun");
+    if(w === 6) cls.push("sat");
+    if(hol) cls.push("hol");
+    if(ds === t) cls.push("today");
+    if(picked.indexOf(ds) >= 0) cls.push("picked");
+
+    const list = tasksOn(ds);
+    const chips = list.slice(0,MAX_CHIP).map(function(tk){
+      return '<span class="tchip'+(tk.done?" d":"")+(sel&&sel.id===tk.id?" on":"")+'" data-act="pickTask" data-id="'+tk.id+'">'+esc(tk.title)+'</span>';
+    }).join("");
+    const more = list.length > MAX_CHIP ? '<div class="more">+'+(list.length-MAX_CHIP)+'</div>' : '';
+
+    cells += '<button class="'+cls.join(" ")+'" data-act="cellclick" data-date="'+ds+'">'
+      + '<span class="mn">'+parseYmd(ds).getDate()+'</span>'
+      + (hol ? '<div class="mh">'+esc(hol)+'</div>' : '')
+      + chips + more
+      + '</button>';
+  });
+  const tail = (7 - ((startPad + days.length) % 7)) % 7;
+  const lastDate = days[days.length-1];
+  for(let i=1;i<=tail;i++){
+    cells += '<div class="mcell out"><span class="mn">'+parseYmd(addDays(lastDate,i)).getDate()+'</span></div>';
+  }
+
+  let head = '<div class="mhead">';
+  for(let i=0;i<7;i++){
+    const inDow = days.filter(function(d){ return dowOf(d) === i; });
+    const allPicked = inDow.length && inDow.every(function(d){ return picked.indexOf(d) >= 0; });
+    const c = [i === 0 ? "a" : (i === 6 ? "b" : "")];
+    if(allPicked) c.push("all");
+    head += '<button class="'+c.join(" ")+'" data-act="pickdow" data-dow="'+i+'">'+WD[i]+'</button>';
+  }
+  head += '</div>';
+
+  let hint;
+  if(picked.length) hint = '<b>'+picked.length+'日を選択中</b>。開いている一覧からタスクを選んでください。続けて日付を押せば、選ぶ日を増やせます。';
+  else hint = '日付を押すとタスクの一覧が開きます。曜日の文字を押すと、その曜日をまとめて選べます。';
+
+  return ''
+  + '<div class="mnav">'
+  +   '<span class="mtitle">'+y+'年'+m+'月</span>'
+  +   '<span class="spacer"></span>'
+  +   (monthShift(-1) ? '<button data-act="prevmonth">‹</button>' : '')
+  +   (monthShift(1) ? '<button data-act="nextmonth">›</button>' : '')
+  + '</div>'
+  + '<div class="goal"><textarea rows="2" data-bind="monthGoal" data-key="'+curMonth+'" placeholder="'+m+'月の目標">'+esc(state.monthGoals[curMonth]||"")+'</textarea></div>'
+  + '<div class="cal">'+head+'<div class="mgrid">'+cells+'</div></div>'
+  + '<div class="hint">'+hint+'</div>';
+}
+
+function monthShift(n){
+  const y = Number(curMonth.slice(0,4)), m = Number(curMonth.slice(5,7));
+  const nk = ymd(new Date(y, m-1+n, 1)).slice(0,7);
+  if(nk < monthKey(SEMESTER_START) || nk > monthKey(SEMESTER_END)) return null;
+  return nk;
+}
+
+function renderModal(){
+  const el = document.getElementById("modal");
+  const t = editId ? findTask(editId) : null;
+  if(!t){ el.innerHTML = ""; return; }
+
+  const dchips = (t.dates||[]).map(function(d){
+    return '<button class="dchip" data-act="deldate" data-id="'+t.id+'" data-date="'+d+'">'+shortDate(d)+'<span class="x">\u00d7</span></button>';
+  }).join("") || '<span class="dnone">まだありません</span>';
+
+  const subs = (t.subs||[]).map(function(sb){
+    return '<div class="sub'+(sb.done?" on":"")+'">'
+      + '<button class="box'+(sb.done?" on":"")+'" data-act="subtoggle" data-id="'+t.id+'" data-sid="'+sb.id+'" aria-label="完了"></button>'
+      + '<span class="st">'+esc(sb.title)+'</span>'
+      + '<button class="linkbtn" data-act="subdel" data-id="'+t.id+'" data-sid="'+sb.id+'">消す</button>'
+      + '</div>';
+  }).join("");
+
+  const delBtn = (confirmId === t.id)
+    ? '<button class="chip danger" data-act="delOk" data-id="'+t.id+'">本当に削除する</button>'
+      + '<button class="chip" data-act="delNo">やめる</button>'
+    : '<button class="chip danger" data-act="delAsk" data-id="'+t.id+'">削除</button>';
+
+  el.innerHTML = '<div class="modal" data-act="closeEdit"><div class="mbox" data-act="noop">'
+    + '<div class="mbox-h"><span class="ttl">タスクを編集</span>'
+    +   '<button class="pop-x" data-act="closeEdit" aria-label="閉じる">\u00d7</button></div>'
+    + '<div class="mbox-b">'
+    +   '<label>名前</label>'
+    +   '<input type="text" data-bind="title" data-id="'+t.id+'" value="'+esc(t.title)+'">'
+    +   '<label>日付'+((t.dates||[]).length ? '（全'+t.dates.length+'日）' : '')+'</label>'
+    +   '<div class="dchips">'+dchips+'</div>'
+    +   '<div class="dateadd"><input type="date" id="dNew" min="'+SEMESTER_START+'" max="'+SEMESTER_END+'">'
+    +     '<button class="chip" data-act="adddate" data-id="'+t.id+'">足す</button></div>'
+    +   '<div class="hint" style="margin-top:6px">日付を押すと外れます。</div>'
+    +   '<label>小さく分ける</label>'
+    +   '<div class="subs">'+subs
+    +     '<div class="subadd"><input type="text" id="subNew" placeholder="やることを分ける">'
+    +       '<button class="chip" data-act="subadd" data-id="'+t.id+'">足す</button></div>'
+    +   '</div>'
+    + '</div>'
+    + '<div class="mbox-f">'+delBtn+'<span class="spacer"></span>'
+    +   '<button class="chip" data-act="closeEdit">閉じる</button></div>'
+    + '</div></div>';
+}
+
+/* ============ 操作 ============ */
+document.addEventListener("click", function(e){
+  const el = e.target.closest("[data-act]");
+  if(!el) return;
+  const act = el.dataset.act;
+
+  if(act === "noop"){ return; }
+  if(act === "openEdit"){ editId = el.dataset.id; selId = el.dataset.id; confirmId = null; render(); focusEl("dNew"); return; }
+  if(act === "closeEdit"){ editId = null; confirmId = null; render(); return; }
+  if(act === "adddate"){
+    const t = findTask(el.dataset.id);
+    const inp = document.getElementById("dNew");
+    if(!t || !inp || !inp.value){ focusEl("dNew"); return; }
+    t.dates = sortDates((t.dates||[]).concat([inp.value]));
+    curMonth = monthKey(inp.value);
+    save(); render(); return;
+  }
+  if(act === "gomonth"){ curMonth = el.dataset.month; render(); return; }
+  if(act === "prevmonth"){ const k = monthShift(-1); if(k){ curMonth = k; render(); } return; }
+  if(act === "nextmonth"){ const k = monthShift(1); if(k){ curMonth = k; render(); } return; }
+  if(act === "hidedone"){ hideDone = !hideDone; render(); return; }
+  if(act === "clearpick"){ picked = []; render(); return; }
+
+  /* 日を選ぶ（トグル） */
+  if(act === "cellclick"){
+    const d = el.dataset.date;
+    const i = picked.indexOf(d);
+    if(i >= 0) picked.splice(i,1); else picked.push(d);
+    render(); return;
+  }
+  /* 曜日でまとめて選ぶ */
+  if(act === "pickdow"){
+    const dow = Number(el.dataset.dow);
+    const inDow = daysInMonth(curMonth).filter(function(d){ return dowOf(d) === dow; });
+    const allPicked = inDow.every(function(d){ return picked.indexOf(d) >= 0; });
+    if(allPicked){
+      picked = picked.filter(function(d){ return inDow.indexOf(d) < 0; });
+    }else{
+      inDow.forEach(function(d){ if(picked.indexOf(d) < 0) picked.push(d); });
+    }
+    render(); return;
+  }
+  /* タスクを押す：日を選んでいれば入れる／いなければ選ぶだけ */
+  if(act === "taskclick"){
+    const t = findTask(el.dataset.id);
+    if(!t) return;
+    if(confirmId === t.id) return;
+    confirmId = null;
+    selId = (selId === t.id) ? null : t.id;
+    render(); return;
+  }
+  /* ポップから選ぶ＝選んだ日に入れる／全部入っていたら外す */
+  if(act === "popPick"){
+    const t = findTask(el.dataset.id);
+    if(!t) return;
+    applyToPicked(t); selId = t.id; confirmId = null;
+    render(); return;
+  }
+  if(act === "popAdd"){
+    const inp = document.getElementById("popQ");
+    if(!inp || !inp.value.trim()){ focusEl("popQ"); return; }
+    const t = newTask(inp.value.trim());
+    state.tasks.push(t);
+    applyToPicked(t);
+    selId = t.id; popQuery = "";
+    save(); render(); focusEl("popQ");
+    return;
+  }
+  /* カレンダーのタスク名を押す＝そのタスクを選ぶ */
+  if(act === "pickTask"){
+    selId = (selId === el.dataset.id) ? null : el.dataset.id;
+    confirmId = null;
+    render(); return;
+  }
+  if(act === "deldate"){
+    const t = findTask(el.dataset.id);
+    if(t){ t.dates = (t.dates||[]).filter(function(d){ return d !== el.dataset.date; }); save(); render(); }
+    return;
+  }
+  if(act === "toggle"){
+    const t = findTask(el.dataset.id);
+    if(t){ t.done = !t.done; save(); render(); }
+    return;
+  }
+  if(act === "add"){
+    const ti = document.getElementById("nTitle");
+    if(!ti || !ti.value.trim()){ focusEl("nTitle"); return; }
+    const t = newTask(ti.value.trim());
+    state.tasks.push(t);
+    if(picked.length) applyToPicked(t);
+    selId = t.id;
+    save(); render(); focusEl("nTitle");
+    return;
+  }
+  if(act === "delAsk"){ confirmId = el.dataset.id; render(); return; }
+  if(act === "delNo"){ confirmId = null; render(); return; }
+  if(act === "delOk"){
+    state.tasks = state.tasks.filter(function(x){ return x.id !== el.dataset.id; });
+    if(selId === el.dataset.id) selId = null;
+    if(editId === el.dataset.id) editId = null;
+    confirmId = null; save(); render(); return;
+  }
+
+  if(act === "subadd"){
+    const inp = document.getElementById("subNew");
+    if(!inp || !inp.value.trim()){ focusEl("subNew"); return; }
+    const t = findTask(el.dataset.id);
+    if(!t) return;
+    if(!t.subs) t.subs = [];
+    t.subs.push({id:uid(), title:inp.value.trim(), done:false});
+    save(); render(); focusEl("subNew");
+    return;
+  }
+  if(act === "subtoggle"){
+    const t = findTask(el.dataset.id);
+    const s = t && (t.subs||[]).find(function(x){ return x.id === el.dataset.sid; });
+    if(s){ s.done = !s.done; save(); render(); }
+    return;
+  }
+  if(act === "subdel"){
+    const t = findTask(el.dataset.id);
+    if(!t) return;
+    t.subs = (t.subs||[]).filter(function(x){ return x.id !== el.dataset.sid; });
+    save(); render(); return;
+  }
+
+  if(act === "export"){ doExport(); return; }
+  if(act === "import"){ document.getElementById("fileIn").click(); return; }
+  if(act === "importOk"){
+    state = migrate(Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), pendingImport));
+    pendingImport = null; selId = null; picked = []; editId = null; save(); render(); return;
+  }
+  if(act === "importNo"){ pendingImport = null; render(); return; }
+});
+
+function focusEl(id){
+  const el = document.getElementById(id);
+  if(el) el.focus();
+}
+
+document.addEventListener("input", function(e){
+  const el = e.target;
+  if(el.id === "popQ"){
+    popQuery = el.value;
+    const pos = el.selectionStart;
+    renderPop();
+    const n = document.getElementById("popQ");
+    if(n){ n.focus(); try{ n.setSelectionRange(pos,pos); }catch(err){} }
+    return;
+  }
+  const bind = el.dataset ? el.dataset.bind : null;
+  if(!bind) return;
+  if(bind === "monthGoal"){ state.monthGoals[el.dataset.key] = el.value; save(); return; }
+  if(bind === "title"){
+    const t = findTask(el.dataset.id);
+    if(t){ t.title = el.value; save(); }
+    return;
+  }
+});
+
+document.addEventListener("change", function(e){
+  const el = e.target;
+  if(el.dataset && el.dataset.bind === "title"){ save(); render(); }
+});
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    if(editId){ editId = null; confirmId = null; render(); return; }
+    if(picked.length){ picked = []; render(); return; }
+  }
+  if(e.key !== "Enter") return;
+  const map = { nTitle:'[data-act="add"]', subNew:'[data-act="subadd"]', popQ:'[data-act="popAdd"]', dNew:'[data-act="adddate"]' };
+  const sel = map[e.target.id];
+  if(sel){ e.preventDefault(); const b = document.querySelector(sel); if(b) b.click(); }
+});
+
+/* ============ 書き出し・読み込み ============ */
+function doExport(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "akigakki-techo-" + todayStr() + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+}
+document.getElementById("fileIn").addEventListener("change", function(e){
+  const f = e.target.files && e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = function(){
+    try{
+      const data = JSON.parse(r.result);
+      if(!data || typeof data !== "object" || !Array.isArray(data.tasks)) throw new Error("形式が違います");
+      pendingImport = data;
+    }catch(err){
+      pendingImport = null;
+      document.getElementById("banner").innerHTML =
+        '<div class="banner">読み込めませんでした。このツールで書き出したJSONを選んでください。</div>';
+      return;
+    }
+    render();
+    window.scrollTo(0,0);
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+
+/* ============ 起動 ============ */
+render();
+</script>
+</body>
+</html>
