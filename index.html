@@ -54,6 +54,37 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 .ruler-bars button:hover{background:var(--ink-3);}
 .ruler-months{display:flex;font-size:11px;color:var(--ink-3);letter-spacing:.06em;margin-top:3px;}
 
+#tabs{display:flex;gap:24px;border-bottom:1px solid var(--rule-2);margin-top:18px;}
+#tabs button{background:none;border:none;padding:9px 0 10px;font-size:14px;color:var(--ink-3);
+  border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.1em;font-family:var(--serif);}
+#tabs button:hover{color:var(--ink-2);}
+#tabs button.on{color:var(--ink);border-bottom-color:var(--ink);}
+#tabs .cnt{margin-left:4px;font-size:11px;color:var(--ink-4);letter-spacing:0;}
+
+/* タスク管理タブ */
+.split-m{display:grid;grid-template-columns:250px 1fr;gap:34px;margin-top:24px;align-items:start;}
+.dsec{margin-top:26px;padding-top:22px;border-top:1px solid var(--rule-2);}
+.dsec.first{margin-top:0;padding-top:0;border-top:none;}
+.dlab{font-size:11px;color:var(--ink-3);letter-spacing:.1em;margin-bottom:9px;}
+.tname{width:100%;font-family:var(--serif);font-size:21px;letter-spacing:.04em;border:none;
+  border-bottom:1px solid var(--rule);background:none;padding:6px 2px;color:var(--ink);}
+.tname:focus{border-bottom-color:var(--indigo);outline:none;}
+.drow{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;}
+.dcol{flex:1;min-width:230px;}
+.logform textarea{width:100%;min-height:88px;background:#fff;border:1px solid var(--rule);padding:9px 10px;
+  border-radius:2px;resize:vertical;line-height:1.8;font-size:13.5px;}
+.logform textarea:focus{border-color:var(--indigo);outline:none;}
+.logform .bar{display:flex;gap:10px;align-items:center;margin-top:8px;}
+.logform .bar .spacer{flex:1;}
+.logform .go{background:var(--indigo);color:#fff;border:none;padding:7px 20px;border-radius:2px;}
+.logs{margin-top:18px;}
+.logitem{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-2);}
+.logitem .at{flex:none;width:104px;font-family:var(--serif);font-size:12px;color:var(--ink-3);letter-spacing:.02em;line-height:1.7;}
+.logitem .tx{flex:1;font-size:13.5px;line-height:1.8;white-space:pre-wrap;word-break:break-word;}
+.logitem .rm{flex:none;}
+.logempty{font-size:12px;color:var(--ink-3);padding:14px 0;line-height:1.8;}
+.dempty{color:var(--ink-3);font-size:13px;padding:40px 0;line-height:2;text-align:center;}
+
 .block-title{font-family:var(--serif);font-size:14px;letter-spacing:.12em;color:var(--ink-2);margin:0 0 8px;font-weight:600;}
 .hint{font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.6;}
 .hint b{font-weight:400;color:var(--accent);}
@@ -131,27 +162,11 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 .more{font-size:10px;color:var(--ink-3);margin-top:3px;padding-left:5px;}
 
 /* 詳細 */
-.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(27,42,65,.22);z-index:80;
-  display:flex;align-items:center;justify-content:center;padding:20px;}
-.mbox{background:#fff;border:1px solid var(--rule);border-radius:3px;width:430px;max-width:100%;
-  max-height:86vh;overflow-y:auto;box-shadow:0 10px 34px rgba(27,42,65,.2);}
-.mbox-h{padding:11px 16px;border-bottom:1px solid var(--rule-2);display:flex;align-items:center;gap:8px;}
-.mbox-h .ttl{flex:1;font-family:var(--serif);font-size:14px;letter-spacing:.1em;color:var(--ink-2);}
-.mbox-b{padding:14px 16px;}
-.mbox-f{padding:11px 16px;border-top:1px solid var(--rule-2);display:flex;gap:8px;align-items:center;background:var(--paper-2);}
-.mbox-f .spacer{flex:1;}
-.mbox label{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.06em;margin:14px 0 5px;}
-.mbox input[type=text]{width:100%;background:#fff;border:1px solid var(--rule);padding:7px 9px;border-radius:2px;}
-.mbox input[type=date]{background:#fff;border:1px solid var(--rule);padding:6px 8px;border-radius:2px;width:158px;}
-.mbox input:focus{border-color:var(--indigo);}
 .dateadd{display:flex;gap:6px;margin-top:8px;align-items:center;}
 .swatches{display:flex;gap:7px;flex-wrap:wrap;}
 .sw{width:30px;height:24px;border-radius:3px;border:1px solid rgba(27,42,65,.12);padding:0;position:relative;}
 .sw.on{box-shadow:0 0 0 2px var(--ink-2);}
 .sw span{display:block;height:100%;border-radius:2px;font-size:10px;line-height:22px;text-align:center;}
-.mbox textarea{width:100%;background:#fff;border:1px solid var(--rule);padding:8px 9px;border-radius:2px;
-  resize:vertical;line-height:1.75;font-size:13.5px;min-height:76px;}
-.mbox textarea:focus{border-color:var(--indigo);}
 .dchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
 .dchip{background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:3px 8px;font-size:11px;color:var(--ink-2);}
 .dchip:hover{border-color:var(--accent);color:var(--accent);}
@@ -199,7 +214,9 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--rule-2);font-
   .mcell .mn{font-size:16px;min-width:23px;height:23px;line-height:23px;}
 }
 @media (max-width:900px){
-  .split{grid-template-columns:1fr;gap:26px;}
+  .split,.split-m{grid-template-columns:1fr;gap:26px;}
+  .logitem{flex-direction:column;gap:3px;}
+  .logitem .at{width:auto;}
   .mcell{min-height:78px;padding:6px 4px 8px;}
   .mcell .mn{font-size:15px;min-width:21px;height:21px;line-height:21px;}
   .tchip{font-size:10px;padding:1px 4px;margin-top:3px;}
@@ -235,6 +252,11 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--rule-2);font-
     </div>
   </header>
 
+  <nav id="tabs">
+    <button data-act="gotab" data-tab="techo">手帳</button>
+    <button data-act="gotab" data-tab="manage">タスク管理</button>
+  </nav>
+
   <div id="banner"></div>
   <main id="main"></main>
 
@@ -244,7 +266,6 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--rule-2);font-
 </div>
 
 <div id="pop"></div>
-<div id="modal"></div>
 
 <input type="file" id="fileIn" accept="application/json" style="display:none">
 
@@ -304,6 +325,14 @@ function diffDays(a,b){ return Math.round((parseYmd(b)-parseYmd(a))/86400000); }
 function shortDate(s){ const d = parseYmd(s); return (d.getMonth()+1)+"/"+d.getDate(); }
 function jpDate(s){ const d = parseYmd(s); return (d.getMonth()+1)+"月"+d.getDate()+"日"; }
 function todayStr(){ return ymd(new Date()); }
+function nowStamp(){
+  const d = new Date();
+  return ymd(d) + " " + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+}
+function stampLabel(at){
+  const d = String(at).slice(0,10), hm = String(at).slice(11);
+  return shortDate(d) + "（" + WD[dowOf(d)] + "） " + hm;
+}
 function daysInMonth(mk){
   const y = Number(mk.slice(0,4)), m = Number(mk.slice(5,7));
   const last = new Date(y, m, 0).getDate();
@@ -346,7 +375,11 @@ function migrate(s){
     }
     delete t.start; delete t.end;
     t.dates = sortDates(t.dates);
-    if(typeof t.note !== "string") t.note = "";
+    if(!Array.isArray(t.logs)) t.logs = [];
+    if(typeof t.note === "string" && t.note.trim()){
+      t.logs.push({ id:uid(), at:nowStamp(), text:t.note.trim() });
+    }
+    delete t.note;
   });
   (s.tasks || []).forEach(function(t,i){
     if(typeof t.color !== "number") t.color = i % PALETTE.length;
@@ -385,7 +418,7 @@ let pendingImport = null;
 let confirmId = null;
 let hideDone = false;
 let popQuery = "";
-let editId = null;
+let view = "techo";
 
 function esc(s){
   return String(s == null ? "" : s)
@@ -403,7 +436,7 @@ function nextColor(){
   return used.length % PALETTE.length;
 }
 function newTask(title){
-  return { id:uid(), title:title, dates:[], note:"", color:nextColor(), done:false, subs:[], archived:false };
+  return { id:uid(), title:title, dates:[], logs:[], color:nextColor(), done:false, subs:[], archived:false };
 }
 function liveTasks(){ return state.tasks.filter(function(t){ return !t.archived; }); }
 function tasksOn(date){ return liveTasks().filter(function(t){ return (t.dates||[]).indexOf(date) >= 0; }); }
@@ -436,9 +469,21 @@ function render(){
   renderMast();
   renderRuler();
   renderBanner();
-  main.innerHTML = '<div class="split"><div class="pane-l">'+leftPane()+'</div><div class="pane-r">'+rightPane()+'</div></div>';
+  renderTabs();
+  if(view === "manage"){
+    main.innerHTML = '<div class="split-m"><div class="pane-l">'+leftPane()+'</div><div class="pane-r">'+managePane()+'</div></div>';
+  }else{
+    main.innerHTML = '<div class="split"><div class="pane-l">'+leftPane()+'</div><div class="pane-r">'+rightPane()+'</div></div>';
+  }
   renderPop();
-  renderModal();
+}
+
+function renderTabs(){
+  const n = liveTasks().filter(function(t){ return !t.done; }).length;
+  const el = document.getElementById("tabs");
+  el.innerHTML = '<button data-act="gotab" data-tab="techo" class="'+(view==="techo"?"on":"")+'">手帳</button>'
+    + '<button data-act="gotab" data-tab="manage" class="'+(view==="manage"?"on":"")+'">タスク管理'
+    + (n ? '<span class="cnt">'+n+'</span>' : '') + '</button>';
 }
 
 /* ---------- 日を選ぶと出るタスク選択ポップ ---------- */
@@ -521,14 +566,14 @@ function leftPane(){
     const btns = (confirmId === t.id)
       ? '<button class="rowbtn danger" data-act="delOk" data-id="'+t.id+'">削除する</button>'
         + '<button class="rowbtn" data-act="delNo">やめる</button>'
-      : '<button class="rowbtn" data-act="openEdit" data-id="'+t.id+'" aria-label="編集" title="編集">\u270e</button>'
+      : (view === "manage" ? "" : '<button class="rowbtn" data-act="openEdit" data-id="'+t.id+'" aria-label="タスク管理で開く" title="タスク管理で開く">\u270e</button>')
         + '<button class="rowbtn" data-act="delAsk" data-id="'+t.id+'" aria-label="削除" title="削除">\u00d7</button>';
     const pal = paletteOf(t);
     return '<div class="trow'+(selId===t.id?" sel":"")+(t.done?" done":"")+'" data-act="taskclick" data-id="'+t.id+'">'
       + '<button class="box'+(t.done?" on":"")+'" data-act="toggle" data-id="'+t.id+'" aria-label="完了"></button>'
       + '<span class="cdot" style="background:'+pal.fg+'"></span>'
       + '<span class="t">'+esc(t.title)+'</span>'
-      + ((t.note||"").trim() ? '<span class="notemark" title="メモあり">\u25a4</span>' : '')
+      + ((t.logs||[]).length ? '<span class="notemark" title="記録'+t.logs.length+'件">\u25a4'+t.logs.length+'</span>' : '')
       + (n ? '<span class="sc">'+dn+'/'+n+'</span>' : '')
       + btns
       + '</div>';
@@ -546,7 +591,9 @@ function leftPane(){
   +   '<button data-act="add">追加</button>'
   + '</div>'
   + '<div class="tlist">'+(rows || '<div class="empty">まだタスクがありません。上の欄に書いて「追加」を押してください。<br>ここに入れたものは、どの月を見ていても消えずに並び続けます。</div>')+'</div>'
-  + '<div class="hint">鉛筆で名前や日付を直せます。日付を入れるときは、カレンダーで日を選ぶ方法もあります。</div>';
+  + '<div class="hint">'+(view === "manage"
+      ? '押すと右に詳細と記録が出ます。'
+      : '鉛筆を押すとタスク管理の画面に移ります。日付はカレンダーで日を選んでも入れられます。')+'</div>';
 }
 
 /* ---------- 右：カレンダー ---------- */
@@ -640,13 +687,16 @@ function swatches(t){
   }).join("");
 }
 
-function renderModal(){
-  const el = document.getElementById("modal");
-  const t = editId ? findTask(editId) : null;
-  if(!t){ el.innerHTML = ""; return; }
+function managePane(){
+  const t = selId ? findTask(selId) : null;
+  if(!t){
+    return '<div class="dempty">左の一覧からタスクを選んでください。<br>'
+      + 'ここで名前・色・日付・小分けを整え、取り組んだあとの記録を残していきます。</div>';
+  }
 
   const dchips = (t.dates||[]).map(function(d){
-    return '<button class="dchip" data-act="deldate" data-id="'+t.id+'" data-date="'+d+'">'+shortDate(d)+'<span class="x">\u00d7</span></button>';
+    return '<button class="dchip" data-act="deldate" data-id="'+t.id+'" data-date="'+d+'">'
+      + shortDate(d)+'<span class="x">\u00d7</span></button>';
   }).join("") || '<span class="dnone">まだありません</span>';
 
   const subs = (t.subs||[]).map(function(sb){
@@ -660,32 +710,56 @@ function renderModal(){
   const delBtn = (confirmId === t.id)
     ? '<button class="chip danger" data-act="delOk" data-id="'+t.id+'">本当に削除する</button>'
       + '<button class="chip" data-act="delNo">やめる</button>'
-    : '<button class="chip danger" data-act="delAsk" data-id="'+t.id+'">削除</button>';
+    : '<button class="chip danger" data-act="delAsk" data-id="'+t.id+'">このタスクを削除</button>';
 
-  el.innerHTML = '<div class="modal" data-act="closeEdit"><div class="mbox" data-act="noop">'
-    + '<div class="mbox-h"><span class="ttl">タスクを編集</span>'
-    +   '<button class="pop-x" data-act="closeEdit" aria-label="閉じる">\u00d7</button></div>'
-    + '<div class="mbox-b">'
-    +   '<label>名前</label>'
-    +   '<input type="text" data-bind="title" data-id="'+t.id+'" value="'+esc(t.title)+'">'
-    +   '<label>色</label>'
-    +   '<div class="swatches">'+swatches(t)+'</div>'
-    +   '<label>日付'+((t.dates||[]).length ? '（全'+t.dates.length+'日）' : '')+'</label>'
-    +   '<div class="dchips">'+dchips+'</div>'
-    +   '<div class="dateadd"><input type="date" id="dNew" min="'+SEMESTER_START+'" max="'+SEMESTER_END+'">'
-    +     '<button class="chip" data-act="adddate" data-id="'+t.id+'">足す</button></div>'
-    +   '<div class="hint" style="margin-top:6px">日付を押すと外れます。</div>'
-    +   '<label>メモ</label>'
-    +   '<textarea data-bind="note" data-id="'+t.id+'" placeholder="範囲、提出先、参考資料、気をつけること など">'+esc(t.note||"")+'</textarea>'
-    +   '<label>小さく分ける</label>'
-    +   '<div class="subs">'+subs
-    +     '<div class="subadd"><input type="text" id="subNew" placeholder="やることを分ける">'
-    +       '<button class="chip" data-act="subadd" data-id="'+t.id+'">足す</button></div>'
-    +   '</div>'
-    + '</div>'
-    + '<div class="mbox-f">'+delBtn+'<span class="spacer"></span>'
-    +   '<button class="chip" data-act="closeEdit">閉じる</button></div>'
-    + '</div></div>';
+  return ''
+  + '<div class="dsec first">'
+  +   '<div class="drow" style="align-items:center;gap:12px">'
+  +     '<button class="box'+(t.done?" on":"")+'" data-act="toggle" data-id="'+t.id+'" aria-label="完了" style="margin-top:0"></button>'
+  +     '<input class="tname" type="text" data-bind="title" data-id="'+t.id+'" value="'+esc(t.title)+'">'
+  +   '</div>'
+  + '</div>'
+
+  + '<div class="dsec"><div class="drow">'
+  +   '<div class="dcol"><div class="dlab">色</div><div class="swatches">'+swatches(t)+'</div></div>'
+  +   '<div class="dcol"><div class="dlab">日付'+((t.dates||[]).length ? '（全'+t.dates.length+'日）' : '')+'</div>'
+  +     '<div class="dchips">'+dchips+'</div>'
+  +     '<div class="dateadd"><input type="date" id="dNew" min="'+SEMESTER_START+'" max="'+SEMESTER_END+'">'
+  +       '<button class="chip" data-act="adddate" data-id="'+t.id+'">足す</button></div>'
+  +     '<div class="hint">日付を押すと外れます。手帳のカレンダーからも入れられます。</div>'
+  +   '</div>'
+  + '</div></div>'
+
+  + '<div class="dsec"><div class="dlab">小さく分ける</div>'
+  +   '<div class="subs">'+subs
+  +     '<div class="subadd"><input type="text" id="subNew" placeholder="やることを分ける">'
+  +       '<button class="chip" data-act="subadd" data-id="'+t.id+'">足す</button></div>'
+  +   '</div>'
+  + '</div>'
+
+  + '<div class="dsec"><div class="dlab">記録'+((t.logs||[]).length ? '（'+t.logs.length+'件）' : '')+'</div>'
+  +   '<div class="logform">'
+  +     '<textarea id="logNew" placeholder="取り組んだ内容、つまずいた点、次にやること"></textarea>'
+  +     '<div class="bar"><span class="hint" style="margin:0">'+stampLabel(nowStamp())+' として残ります。</span>'
+  +       '<span class="spacer"></span>'
+  +       '<button class="go" data-act="addlog" data-id="'+t.id+'">記録する</button></div>'
+  +   '</div>'
+  +   '<div class="logs">'+logList(t)+'</div>'
+  + '</div>'
+
+  + '<div class="dsec"><div class="drow" style="align-items:center"><span style="flex:1"></span>'+delBtn+'</div></div>';
+}
+
+function logList(t){
+  const logs = (t.logs||[]).slice().sort(function(a,b){ return a.at < b.at ? 1 : (a.at > b.at ? -1 : 0); });
+  if(!logs.length) return '<div class="logempty">まだ記録がありません。取り組んだあとに一言だけでも残しておくと、あとで効いてきます。</div>';
+  return logs.map(function(g){
+    return '<div class="logitem">'
+      + '<div class="at">'+stampLabel(g.at)+'</div>'
+      + '<div class="tx">'+esc(g.text)+'</div>'
+      + '<button class="linkbtn rm" data-act="dellog" data-id="'+t.id+'" data-lid="'+g.id+'">消す</button>'
+      + '</div>';
+  }).join("");
 }
 
 /* ============ 操作 ============ */
@@ -694,9 +768,25 @@ document.addEventListener("click", function(e){
   if(!el) return;
   const act = el.dataset.act;
 
-  if(act === "noop"){ return; }
-  if(act === "openEdit"){ editId = el.dataset.id; selId = el.dataset.id; confirmId = null; render(); focusEl("dNew"); return; }
-  if(act === "closeEdit"){ editId = null; confirmId = null; render(); return; }
+  if(act === "gotab"){ view = el.dataset.tab; confirmId = null; render(); window.scrollTo(0,0); return; }
+  if(act === "openEdit"){
+    view = "manage"; selId = el.dataset.id; confirmId = null;
+    render(); window.scrollTo(0,0); focusEl("logNew"); return;
+  }
+  if(act === "addlog"){
+    const t = findTask(el.dataset.id);
+    const inp = document.getElementById("logNew");
+    if(!t || !inp || !inp.value.trim()){ focusEl("logNew"); return; }
+    if(!Array.isArray(t.logs)) t.logs = [];
+    t.logs.push({ id:uid(), at:nowStamp(), text:inp.value.trim() });
+    save(); render(); focusEl("logNew");
+    return;
+  }
+  if(act === "dellog"){
+    const t = findTask(el.dataset.id);
+    if(t){ t.logs = (t.logs||[]).filter(function(g){ return g.id !== el.dataset.lid; }); save(); render(); }
+    return;
+  }
   if(act === "setcolor"){
     const t = findTask(el.dataset.id);
     if(t){ t.color = Number(el.dataset.color); save(); render(); }
@@ -710,7 +800,7 @@ document.addEventListener("click", function(e){
     curMonth = monthKey(inp.value);
     save(); render(); return;
   }
-  if(act === "gomonth"){ curMonth = el.dataset.month; render(); return; }
+  if(act === "gomonth"){ curMonth = el.dataset.month; view = "techo"; render(); return; }
   if(act === "prevmonth"){ const k = monthShift(-1); if(k){ curMonth = k; render(); } return; }
   if(act === "nextmonth"){ const k = monthShift(1); if(k){ curMonth = k; render(); } return; }
   if(act === "hidedone"){ hideDone = !hideDone; render(); return; }
@@ -741,7 +831,7 @@ document.addEventListener("click", function(e){
     if(!t) return;
     if(confirmId === t.id) return;
     confirmId = null;
-    selId = (selId === t.id) ? null : t.id;
+    selId = (view === "manage") ? t.id : ((selId === t.id) ? null : t.id);
     render(); return;
   }
   /* ポップから選ぶ＝選んだ日に入れる／全部入っていたら外す */
@@ -792,7 +882,6 @@ document.addEventListener("click", function(e){
   if(act === "delOk"){
     state.tasks = state.tasks.filter(function(x){ return x.id !== el.dataset.id; });
     if(selId === el.dataset.id) selId = null;
-    if(editId === el.dataset.id) editId = null;
     confirmId = null; save(); render(); return;
   }
 
@@ -823,7 +912,7 @@ document.addEventListener("click", function(e){
   if(act === "import"){ document.getElementById("fileIn").click(); return; }
   if(act === "importOk"){
     state = migrate(Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), pendingImport));
-    pendingImport = null; selId = null; picked = []; editId = null; save(); render(); return;
+    pendingImport = null; selId = null; picked = []; save(); render(); return;
   }
   if(act === "importNo"){ pendingImport = null; render(); return; }
 });
@@ -851,25 +940,27 @@ document.addEventListener("input", function(e){
     if(t){ t.title = el.value; save(); }
     return;
   }
-  if(bind === "note"){
-    const t = findTask(el.dataset.id);
-    if(t){ t.note = el.value; save(); }
-    return;
-  }
 });
 
 document.addEventListener("change", function(e){
   const el = e.target;
-  const b = el.dataset ? el.dataset.bind : null;
-  if(b === "title" || b === "note"){ save(); render(); }
+  if(el.dataset && el.dataset.bind === "title"){ save(); render(); }
 });
 
 document.addEventListener("keydown", function(e){
   if(e.key === "Escape"){
-    if(editId){ editId = null; confirmId = null; render(); return; }
     if(picked.length){ picked = []; render(); return; }
+    if(confirmId){ confirmId = null; render(); return; }
   }
   if(e.key !== "Enter") return;
+  if(e.target.id === "logNew"){
+    if(e.metaKey || e.ctrlKey){
+      e.preventDefault();
+      const b = document.querySelector('[data-act="addlog"]');
+      if(b) b.click();
+    }
+    return;
+  }
   const map = { nTitle:'[data-act="add"]', subNew:'[data-act="subadd"]', popQ:'[data-act="popAdd"]', dNew:'[data-act="adddate"]' };
   const sel = map[e.target.id];
   if(sel){ e.preventDefault(); const b = document.querySelector(sel); if(b) b.click(); }
