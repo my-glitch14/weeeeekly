@@ -77,6 +77,8 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 .trow.sel{border-left-color:var(--accent);background:var(--accent-bg);}
 .trow .t{flex:1;font-size:13px;line-height:1.55;word-break:break-word;}
 .trow.done .t{color:var(--ink-3);text-decoration:line-through;}
+.cdot{flex:none;width:9px;height:9px;border-radius:2px;margin-top:6px;}
+.notemark{flex:none;font-size:10px;color:var(--ink-3);margin-top:3px;}
 .rowbtn{flex:none;background:none;border:none;padding:0 2px;font-size:12px;color:var(--ink-4);line-height:1.5;margin-top:2px;}
 .rowbtn:hover{color:var(--accent);}
 .rowbtn.danger{color:var(--accent);font-size:11px;text-decoration:underline;}
@@ -124,8 +126,8 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 .mcell.picked.today .mn{background:var(--accent);}
 .tchip{display:block;font-size:11px;line-height:1.55;padding:2px 6px;margin-top:4px;background:var(--chip);color:var(--ink-2);
   border-radius:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tchip.on{background:var(--chip-on);color:var(--accent);}
-.tchip.d{color:var(--ink-3);text-decoration:line-through;}
+.tchip.on{box-shadow:0 0 0 1.5px currentColor;font-weight:600;}
+.tchip.d{text-decoration:line-through;opacity:.5;}
 .more{font-size:10px;color:var(--ink-3);margin-top:3px;padding-left:5px;}
 
 /* 詳細 */
@@ -143,6 +145,13 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 .mbox input[type=date]{background:#fff;border:1px solid var(--rule);padding:6px 8px;border-radius:2px;width:158px;}
 .mbox input:focus{border-color:var(--indigo);}
 .dateadd{display:flex;gap:6px;margin-top:8px;align-items:center;}
+.swatches{display:flex;gap:7px;flex-wrap:wrap;}
+.sw{width:30px;height:24px;border-radius:3px;border:1px solid rgba(27,42,65,.12);padding:0;position:relative;}
+.sw.on{box-shadow:0 0 0 2px var(--ink-2);}
+.sw span{display:block;height:100%;border-radius:2px;font-size:10px;line-height:22px;text-align:center;}
+.mbox textarea{width:100%;background:#fff;border:1px solid var(--rule);padding:8px 9px;border-radius:2px;
+  resize:vertical;line-height:1.75;font-size:13.5px;min-height:76px;}
+.mbox textarea:focus{border-color:var(--indigo);}
 .dchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
 .dchip{background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:3px 8px;font-size:11px;color:var(--ink-2);}
 .dchip:hover{border-color:var(--accent);color:var(--accent);}
@@ -248,6 +257,18 @@ const SEMESTER_START = "2026-10-01";
 const SEMESTER_END   = "2027-02-28";
 const WD = ["日","月","火","水","木","金","土"];
 const MAX_CHIP = 4;
+/* タスクの色。紙に載る和の色味で、文字が読める濃さの組を用意する */
+const PALETTE = [
+  { name:"藍",   bg:"#DCE3EC", fg:"#2E4A6B" },
+  { name:"臙脂", bg:"#F0DEE0", fg:"#8C2F39" },
+  { name:"苔",   bg:"#DFE5D7", fg:"#52633C" },
+  { name:"枯茶", bg:"#ECE0D1", fg:"#7A5A36" },
+  { name:"藤",   bg:"#E2DEEC", fg:"#574B7A" },
+  { name:"浅葱", bg:"#D7E6E4", fg:"#2C625E" },
+  { name:"山吹", bg:"#F0E7CD", fg:"#785C1E" },
+  { name:"鼠",   bg:"#E4E3DE", fg:"#54585E" }
+];
+function paletteOf(t){ return PALETTE[(t && typeof t.color === "number") ? (t.color % PALETTE.length) : 0]; }
 
 const HOLIDAYS = {
   "2026-10-12":"スポーツの日",
@@ -325,6 +346,10 @@ function migrate(s){
     }
     delete t.start; delete t.end;
     t.dates = sortDates(t.dates);
+    if(typeof t.note !== "string") t.note = "";
+  });
+  (s.tasks || []).forEach(function(t,i){
+    if(typeof t.color !== "number") t.color = i % PALETTE.length;
   });
   if(!s.goalMoved){
     const carried = [];
@@ -372,7 +397,14 @@ function sortDates(a){
     .sort(function(x,y){ return x < y ? -1 : (x > y ? 1 : 0); });
 }
 function findTask(id){ return state.tasks.find(function(t){ return t.id === id; }); }
-function newTask(title){ return { id:uid(), title:title, dates:[], done:false, subs:[], archived:false }; }
+function nextColor(){
+  const used = liveTasks().map(function(t){ return t.color; });
+  for(let i=0;i<PALETTE.length;i++){ if(used.indexOf(i) < 0) return i; }
+  return used.length % PALETTE.length;
+}
+function newTask(title){
+  return { id:uid(), title:title, dates:[], note:"", color:nextColor(), done:false, subs:[], archived:false };
+}
 function liveTasks(){ return state.tasks.filter(function(t){ return !t.archived; }); }
 function tasksOn(date){ return liveTasks().filter(function(t){ return (t.dates||[]).indexOf(date) >= 0; }); }
 function firstDate(t){ return (t.dates && t.dates.length) ? t.dates[0] : ""; }
@@ -424,6 +456,7 @@ function renderPop(){
     const mark = inAll ? "\u2713" : (has ? "\u2013" : "");
     return '<button class="pop-row'+(inAll?" in":"")+(t.done?" done":"")+'" data-act="popPick" data-id="'+t.id+'">'
       + '<span class="mk">'+mark+'</span>'
+      + '<span class="cdot" style="background:'+paletteOf(t).fg+'"></span>'
       + '<span class="pt">'+esc(t.title)+'</span>'
       + '<span class="pn">'+((t.dates||[]).length ? (t.dates.length)+"日" : "")+'</span>'
       + '</button>';
@@ -490,9 +523,12 @@ function leftPane(){
         + '<button class="rowbtn" data-act="delNo">やめる</button>'
       : '<button class="rowbtn" data-act="openEdit" data-id="'+t.id+'" aria-label="編集" title="編集">\u270e</button>'
         + '<button class="rowbtn" data-act="delAsk" data-id="'+t.id+'" aria-label="削除" title="削除">\u00d7</button>';
+    const pal = paletteOf(t);
     return '<div class="trow'+(selId===t.id?" sel":"")+(t.done?" done":"")+'" data-act="taskclick" data-id="'+t.id+'">'
       + '<button class="box'+(t.done?" on":"")+'" data-act="toggle" data-id="'+t.id+'" aria-label="完了"></button>'
+      + '<span class="cdot" style="background:'+pal.fg+'"></span>'
       + '<span class="t">'+esc(t.title)+'</span>'
+      + ((t.note||"").trim() ? '<span class="notemark" title="メモあり">\u25a4</span>' : '')
       + (n ? '<span class="sc">'+dn+'/'+n+'</span>' : '')
       + btns
       + '</div>';
@@ -541,7 +577,12 @@ function rightPane(){
 
     const list = tasksOn(ds);
     const chips = list.slice(0,MAX_CHIP).map(function(tk){
-      return '<span class="tchip'+(tk.done?" d":"")+(sel&&sel.id===tk.id?" on":"")+'" data-act="pickTask" data-id="'+tk.id+'">'+esc(tk.title)+'</span>';
+      const pal = paletteOf(tk);
+      const memo = (tk.note||"").trim();
+      const tip = esc(tk.title + (memo ? "　" + memo.replace(/\s+/g," ").slice(0,60) : ""));
+      return '<span class="tchip'+(tk.done?" d":"")+(sel&&sel.id===tk.id?" on":"")+'"'
+        + ' style="background:'+pal.bg+';color:'+pal.fg+'"'
+        + ' title="'+tip+'" data-act="pickTask" data-id="'+tk.id+'">'+esc(tk.title)+'</span>';
     }).join("");
     const more = list.length > MAX_CHIP ? '<div class="more">+'+(list.length-MAX_CHIP)+'</div>' : '';
 
@@ -590,6 +631,15 @@ function monthShift(n){
   return nk;
 }
 
+function swatches(t){
+  const cur = (typeof t.color === "number") ? (t.color % PALETTE.length) : 0;
+  return PALETTE.map(function(p,i){
+    return '<button class="sw'+(i===cur?" on":"")+'" data-act="setcolor" data-id="'+t.id+'" data-color="'+i+'"'
+      + ' title="'+p.name+'" aria-label="'+p.name+'">'
+      + '<span style="background:'+p.bg+';color:'+p.fg+'">'+(i===cur?"\u2713":"")+'</span></button>';
+  }).join("");
+}
+
 function renderModal(){
   const el = document.getElementById("modal");
   const t = editId ? findTask(editId) : null;
@@ -618,11 +668,15 @@ function renderModal(){
     + '<div class="mbox-b">'
     +   '<label>名前</label>'
     +   '<input type="text" data-bind="title" data-id="'+t.id+'" value="'+esc(t.title)+'">'
+    +   '<label>色</label>'
+    +   '<div class="swatches">'+swatches(t)+'</div>'
     +   '<label>日付'+((t.dates||[]).length ? '（全'+t.dates.length+'日）' : '')+'</label>'
     +   '<div class="dchips">'+dchips+'</div>'
     +   '<div class="dateadd"><input type="date" id="dNew" min="'+SEMESTER_START+'" max="'+SEMESTER_END+'">'
     +     '<button class="chip" data-act="adddate" data-id="'+t.id+'">足す</button></div>'
     +   '<div class="hint" style="margin-top:6px">日付を押すと外れます。</div>'
+    +   '<label>メモ</label>'
+    +   '<textarea data-bind="note" data-id="'+t.id+'" placeholder="範囲、提出先、参考資料、気をつけること など">'+esc(t.note||"")+'</textarea>'
     +   '<label>小さく分ける</label>'
     +   '<div class="subs">'+subs
     +     '<div class="subadd"><input type="text" id="subNew" placeholder="やることを分ける">'
@@ -643,6 +697,11 @@ document.addEventListener("click", function(e){
   if(act === "noop"){ return; }
   if(act === "openEdit"){ editId = el.dataset.id; selId = el.dataset.id; confirmId = null; render(); focusEl("dNew"); return; }
   if(act === "closeEdit"){ editId = null; confirmId = null; render(); return; }
+  if(act === "setcolor"){
+    const t = findTask(el.dataset.id);
+    if(t){ t.color = Number(el.dataset.color); save(); render(); }
+    return;
+  }
   if(act === "adddate"){
     const t = findTask(el.dataset.id);
     const inp = document.getElementById("dNew");
@@ -792,11 +851,17 @@ document.addEventListener("input", function(e){
     if(t){ t.title = el.value; save(); }
     return;
   }
+  if(bind === "note"){
+    const t = findTask(el.dataset.id);
+    if(t){ t.note = el.value; save(); }
+    return;
+  }
 });
 
 document.addEventListener("change", function(e){
   const el = e.target;
-  if(el.dataset && el.dataset.bind === "title"){ save(); render(); }
+  const b = el.dataset ? el.dataset.bind : null;
+  if(b === "title" || b === "note"){ save(); render(); }
 });
 
 document.addEventListener("keydown", function(e){
